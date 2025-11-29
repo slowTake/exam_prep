@@ -1,0 +1,60 @@
+# ----------------------------------------------------------------------
+# System and Temporary Files (Common "Identifier Files")
+# ----------------------------------------------------------------------
+
+# 1. Backup and Temporary Files (from text editors like Vim, Nano, etc.)
+# Ignores files ending in ~ (e.g., file.txt~)
+*~
+# Ignores Vim swap files (e.g., .file.txt.swp)
+*.swp
+*.swo
+# Ignores temporary files that start with # (often created by Emacs)
+\#*
+
+# 2. Operating System Files
+# macOS/OSX System Files
+.DS_Store
+# Windows/WSL Thumbnail cache files
+Thumbs.db
+
+# 3. Directories often containing temporary/cache data
+# Ignores any folder named 'temp' or 'tmp'
+/temp/
+/tmp/
+# Ignores any folder named 'log' or 'logs'
+/log/
+/logs/
+# Ignores any file ending in .log
+*.log
+
+# 4. WSL/Linux-Specific Identifiers
+# Trash directory that might appear in some mounts
+.Trash-*/
+
+# ----------------------------------------------------------------------
+# IDE and Editor-Specific Configuration
+# (These folders store *your* personal workspace settings)
+# ----------------------------------------------------------------------
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+.idea/
+
+# Visual Studio (Windows, but often seen in WSL projects)
+*.suo
+*.user
+*.userosscache
+
+# ----------------------------------------------------------------------
+# Sensitive or Re-generated Files (Good practice to ignore)
+# ----------------------------------------------------------------------
+
+# Environment Variables (containing secrets, API keys, etc.)
+.env
+
+# Compiled/Build Artifacts (if you're using a language like Python, C, etc.)
+# Example for Python compiled files:
+*.pyc
+__pycache__/
