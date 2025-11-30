@@ -1,10 +1,10 @@
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE
 #endif
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <string.h> // strlen
+#include <unistd.h> // write, read
+#include <stdlib.h> // malloc, free, memmove, realloc
+#include <stdio.h> //fprintf used for streams
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 20

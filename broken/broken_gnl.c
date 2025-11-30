@@ -1,5 +1,6 @@
 #include "get_next_line.h"
 
+
 static char *ft_strjoin_char(char *s, char c)
 {
     char *new;
@@ -50,12 +51,13 @@ char *get_next_line(int fd)
     }
 }
 
-#include <stdio.h>
-#include <fcntl.h>
+
+#include <stdio.h> // printf testing
+#include <fcntl.h> // open testing 
 
 int	main(void)
 {
-	int		fd;
+	int     fd;
 
 	fd = open("test_file.txt", O_RDONLY);
 	printf("get_next_line return: %s\n", get_next_line(fd));
