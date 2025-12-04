@@ -4,7 +4,7 @@
 #include <string.h> // strlen
 #include <unistd.h> // write, read
 #include <stdlib.h> // malloc, free, memmove, realloc
-#include <stdio.h> //fprintf used for streams
+#include <stdio.h> // fprintf used for streams
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 20

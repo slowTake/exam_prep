@@ -1,6 +1,5 @@
 #include "get_next_line.h"
 
-
 static char *ft_strjoin_char(char *s, char c)
 {
     char *new;
@@ -29,9 +28,9 @@ static char *ft_strjoin_char(char *s, char c)
 char *get_next_line(int fd)
 {
     static char buffer[BUFFER_SIZE + 1];
-    static int buffer_pos = 0;
-    static int buffer_read = 0;
-    char *line = NULL;
+    static int  buffer_pos = 0;
+    static int  buffer_read = 0;
+    char        *line = NULL;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
@@ -46,11 +45,10 @@ char *get_next_line(int fd)
         }
         if (!(line = ft_strjoin_char(line, buffer[buffer_pos])))
             return (NULL);
-        if (buffer[buffer_pos++] == '\n')
+        if (buffer[buffer_pos + 1] == '\n')
             return (line);
     }
 }
-
 
 #include <stdio.h> // printf testing
 #include <fcntl.h> // open testing 
@@ -70,7 +68,7 @@ int	main(void)
 	printf("get_next_line return: %s\n", get_next_line(fd));
 	printf("get_next_line return: %s\n", get_next_line(fd));
 	printf("get_next_line return: %s\n", get_next_line(fd));
-	printf("get_next_line return: %s\n", get_next_line(fd));
-	printf("get_next_line return: %s\n", get_next_line(fd));
+	// printf("get_next_line return: %s\n", get_next_line(fd));
+	// printf("get_next_line return: %s\n", get_next_line(fd));
 	return(0);
 }
