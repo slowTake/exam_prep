@@ -1,6 +1,7 @@
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE
 #endif
+
 #include <string.h> // strlen
 #include <unistd.h> // write, read
 #include <stdlib.h> // malloc, free, memmove, realloc
