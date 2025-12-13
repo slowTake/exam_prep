@@ -1,14 +1,10 @@
-#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
-#endif
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 20000
-#endif
+#define BUFFER_SIZE 100000
 
 void print_stars(char *filter)
 {
@@ -25,18 +21,19 @@ void process_input(char *filter)
 {
 	char *buf = NULL;
 	char *match;
+	int bytes_read = 0;
 
-	buf = malloc(BUFFER_SIZE);
-	read(0, buf, BUFFER_SIZE);
-
-
-	while(*buf)
+	buf = malloc(BUFFER_SIZE + 1);
+	bytes_read = read(0, buf, BUFFER_SIZE);
+	buf[bytes_read] = '\0';
+	
+	while(buf)
 	{
 		match = memmem(buf, strlen(buf), filter, strlen(filter));
-		if(match == buf)
+		if(buf == match)
 		{
 			print_stars(filter);
-			buf += strlen(filter);
+			buf+= strlen(filter);
 		}
 		else
 		{

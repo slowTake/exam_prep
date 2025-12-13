@@ -78,6 +78,7 @@ int	process_input(char *filter)
 		}
 	}
 	free(input);
+	
 	return (0);
 }
 
