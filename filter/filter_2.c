@@ -20,24 +20,21 @@ void print_stars(char *filter)
 	}
 }
 
-int process_input(char *filter)
+char *read_input(void)
 {
 	int bytes_read;
 	char *buf[BUFFER_SIZE];
-	char *input = NULL;
-	int total_len = 0;
-	char *temp;
-	char *current;
-	char *match;
+	char *temp = NULL;
+	char *input;
 
-	while((bytes_read = read(0, buf, BUFFER_SIZE)) > 0)
+	while((bytes_read = read(0, buf, BUFFER_SIZE) > 0))
 	{
-		temp = realloc(input, total_len + bytes_read + 1);
+		temp = realloc(input, total_len + bytes_read 1);
 		if(!temp)
 		{
+			free(temp);
 			perror("realloc");
-			free(input);
-			return(1);
+			return(NULL);
 		}
 		input = temp;
 		memmove(input + total_len, buf, bytes_read);
@@ -45,22 +42,34 @@ int process_input(char *filter)
 		input[total_len] = '\0';
 		bytes_read = 0;
 	}
-
-	while(*input)
+	if(bytes_read < 0)
 	{
-		match = memmem(input, strlen(input), filter, strlen(filter));
-		if(match == input)
+		free(input);
+		perror(read);
+		return(NULL);
+	}
+	return(input);
+}
+
+int process_input(char *filter)
+{
+	char *current = read_input();
+	char *match;
+
+	while(*current)
+	{
+		match = memmem(current, strlen(current), filter, strlen(filter))
+		if(match == current)
 		{
 			print_stars(filter);
-			input += strlen(filter);
+			current += strlen(filter);
 		}
 		else
 		{
-			write(1, input, 1);
-			input++;
+			write(1, current, 1);
+			current++;
 		}
 	}
-	return(0);
 }
 
 
