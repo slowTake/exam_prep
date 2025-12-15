@@ -35,10 +35,11 @@ int *process_input(char *filter)
 		memmove(input + total_len, buf, bytes_read);
 		total_len += bytes_read;
 		bytes_read = 0;
+		// input[total_len] = '\0';
 	}
 	
 	current = input;
-
+	
 	while(*current)
 	{
 		match = memmem(current, strlen(current), filter, strlen(filter));
@@ -53,6 +54,7 @@ int *process_input(char *filter)
 			current++;
 		}
 	}
+	free(input);
 	return(0);
 }
 

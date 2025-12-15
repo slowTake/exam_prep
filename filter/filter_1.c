@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE 100000
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
 
 void print_stars(char *filter)
 {
@@ -17,30 +19,38 @@ void print_stars(char *filter)
 	}
 }
 
-void process_input(char *filter)
+int process_input(char *filter)
 {
-	char *buf = NULL;
-	char *match;
+	char *buf[BUFFER_SIZE];
 	int bytes_read = 0;
+	char *input = NULL;
+	int total_len = 0;
+	char *current;
+	char *match;
 
-	buf = malloc(BUFFER_SIZE + 1);
-	bytes_read = read(0, buf, BUFFER_SIZE);
-	buf[bytes_read] = '\0';
-	
-	while(buf)
+	input = malloc(200000);
+	while((bytes_read = read(0, buf, BUFFER_SIZE)) > 0)
 	{
-		match = memmem(buf, strlen(buf), filter, strlen(filter));
-		if(buf == match)
+		memmove(input + total_len, buf, bytes_read);
+	}
+
+	current = input;
+
+	while(*current)
+	{
+		match = memmem(current, strlen(current), filter, strlen(filter));
+		if(match == current)
 		{
 			print_stars(filter);
-			buf+= strlen(filter);
+			current += strlen(filter);
 		}
 		else
 		{
-			write(1, buf, 1);
-			buf++;
+			write(1, current, 1);
+			current++;
 		}
 	}
+	return(0);
 }
 
 int main(int argc, char **argv)
