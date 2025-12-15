@@ -14,9 +14,9 @@
 char	*read_input(void)
 {
 	char	*input = NULL;
+	char	buf[BUFFER_SIZE];
 	int		read_bytes = 0;
 	int		total_len = 0;
-	char	buf[BUFFER_SIZE];
 	char	*temp;
 
 	while ((read_bytes = read(STDIN_FILENO, buf, BUFFER_SIZE)) > 0)
