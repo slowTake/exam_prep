@@ -12,7 +12,7 @@
 void print_stars(char *filter)
 {
 	int len = strlen(filter);
-
+	
 	while(len > 0)
 	{
 		write(1, "*", 1);
@@ -22,14 +22,15 @@ void print_stars(char *filter)
 
 char *read_input(void)
 {
-	int bytes_read;
-	char *buf[BUFFER_SIZE];
-	char *temp = NULL;
-	char *input;
+	int total_len = 0;
+	char buf[BUFFER_SIZE];
+	int bytes_read = 0;
+	char *input = NULL;
+	char *temp;
 
-	while((bytes_read = read(0, buf, BUFFER_SIZE) > 0))
+	while((bytes_read = read(0, buf, BUFFER_SIZE)) > 0)
 	{
-		temp = realloc(input, total_len + bytes_read 1);
+		temp = realloc(input, total_len + bytes_read + 1);
 		if(!temp)
 		{
 			free(temp);
@@ -45,24 +46,32 @@ char *read_input(void)
 	if(bytes_read < 0)
 	{
 		free(input);
-		perror(read);
+		perror("read");
 		return(NULL);
 	}
+	// printf("reeading");
 	return(input);
 }
 
 int process_input(char *filter)
 {
-	char *current = read_input();
+	char *current;
+	char *input = read_input();
 	char *match;
 
+	if(!input)
+	{
+		printf("rip current");
+		return(1);
+	}
+	current = input;
 	while(*current)
 	{
-		match = memmem(current, strlen(current), filter, strlen(filter))
+		match = memmem(current, strlen(current), filter, strlen(filter));
 		if(match == current)
 		{
 			print_stars(filter);
-			current += strlen(filter);
+			current+= strlen(filter);
 		}
 		else
 		{
@@ -70,13 +79,17 @@ int process_input(char *filter)
 			current++;
 		}
 	}
+	free(input);
+	return(0);
 }
-
 
 int main(int argc, char **argv)
 {
 	if(argc != 2 || !argv[1][0])
+	{
+		printf("rip");
 		return(1);
+	}	
 	else
 		process_input(argv[1]);
 	return(0);
