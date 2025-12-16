@@ -9,10 +9,10 @@ static char *ft_strjoin_char(char *s, char c)
     if (s)
         while (s[len])
             len++;
-    if (!(new = malloc(len + 2)))
+	if(!(new = malloc(len + 2)))
 	{
 		free(s);
-        return (NULL);
+		return(NULL);
 	}
 	while (i < len)
     {
@@ -45,7 +45,7 @@ char *get_next_line(int fd)
         }
         if (!(line = ft_strjoin_char(line, buffer[buffer_pos])))
             return (NULL);
-        buffer_pos++;
+		buffer_pos++;
         if (buffer[buffer_pos + 1] == '\n')
             return (line);
     }
