@@ -1,54 +1,54 @@
 #include "get_next_line.h"
 
-static char *ft_strjoin_char(char *s, char c)
+static char *ft_strjoin_char(char *str, char c)
 {
     char *new;
     int i = 0;
     int len = 0;
 
-    if (s)
-        while (s[len])
+    if (str)
+        while (str[len])
             len++;
     if (!(new = malloc(len + 2)))
 	{
-		free(s);
+		free(str);
         return (NULL);
 	}
 	while (i < len)
     {
-        new[i] = s[i];
+        new[i] = str[i];
         i++;
     }
     new[i] = c;
     new[i + 1] = '\0';
-    free(s);
+    free(str);
     return (new);
 }
 
 char *get_next_line(int fd)
 {
-    static char buffer[BUFFER_SIZE + 1];
-    static int  buffer_pos = 0;
-    static int  buffer_read = 0;
+    static char buf[BUFFER_SIZE + 1];
+    static int  buf_pos = 0;
+    static int  bytes_read = 0;
     char        *line = NULL;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
     while (1)
     {
-        if (buffer_pos >= buffer_read)
+        if(buf_pos >= bytes_read)
         {
-            buffer_read = read(fd, buffer, BUFFER_SIZE);
-            buffer_pos = 0;
-            if (buffer_read <= 0)
-                return (line);
+            bytes_read = read(fd, buf, BUFFER_SIZE);
+            buf_pos = 0;
+            if(bytes_read <= 0)
+                return(line);
         }
-        if (!(line = ft_strjoin_char(line, buffer[buffer_pos])))
-            return (NULL);
-        buffer_pos++;
-        if (buffer[buffer_pos + 1] == '\n')
-            return (line);
+        char c = buf[buf_pos++];
+        line = ft_strjoin_char(line, c);
+        if(c == '\n')
+            break;
     }
+    return(line);
 }
 
 #include <stdio.h> // printf testing

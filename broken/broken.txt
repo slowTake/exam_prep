@@ -38,7 +38,7 @@ the text available on a file descriptor one line at a time until the end of the
 text, regardless of the size of the text or any of its lines.
 
 Make sure that your function behaves correctly when reading from a file, from the
-standard output, from a redirection etc.
+standard output, from a redirectzion etc.
 
 No call to another function will be done on the file descriptor between two calls
 of get_next_line.
