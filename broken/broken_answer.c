@@ -20,7 +20,7 @@ static char *ft_strjoin_char(char *str, char c)
         i++;
     }
     new[i] = c;
-    new[i + 1] = '\0';
+    new[i + 1] = '\0'; 
     free(str);
     return (new);
 }
