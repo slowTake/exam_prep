@@ -56,8 +56,7 @@ char *get_next_line(int fd)
 
 int	main(void)
 {
-	int     fd;
-
+	int fd;
 	fd = open("test_file.txt", O_RDONLY);
 	printf("get_next_line return: %s\n", get_next_line(fd));
 	printf("get_next_line return: %s\n", get_next_line(fd));
