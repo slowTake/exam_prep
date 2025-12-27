@@ -1,11 +1,12 @@
 #define _GNU_SOURCE
 
 #include <unistd.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
-#ifndef BUFFER_SIZE 
+
+#ifndef BUFFER_SIZE
 #define BUFFER_SIZE 42
 #endif
 
@@ -22,10 +23,10 @@ void print_stars(char *filter)
 
 int process_input(char *filter)
 {
-    char buf[BUFFER_SIZE];
     int bytes_read = 0;
-    char *input = NULL;
-    char *temp;
+    char buf[BUFFER_SIZE];
+    char* temp;
+    char* input = NULL;
     int total_size = 0;
 
     while((bytes_read = read(0, buf, BUFFER_SIZE)) > 0)
@@ -37,13 +38,13 @@ int process_input(char *filter)
             free(input);
             return(1);
         }
-        memmove(temp, buf, bytes_read);
+        memmove(temp + total_size, buf, bytes_read);
         total_size += bytes_read;
         input = temp;
     }
 
-    char *match;
     char *current = input;
+    char *match;
 
     while(*current)
     {
@@ -59,7 +60,6 @@ int process_input(char *filter)
             current++;
         }
     }
-    free(input);
     return(0);
 }
 
@@ -69,5 +69,4 @@ int main(int argc, char **argv)
         return(1);
     else
         process_input(argv[1]);
-    return(0);
 }

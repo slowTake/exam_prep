@@ -1,12 +1,12 @@
 #include "get_next_line.h"
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
 
-static char *ft_strjoin_char(char *str, char c)
+static char* ft_strjoin_c(char *str, char c)
 {
-    int i = 0;
-    int len = 0;
     char *new;
+    int len = 0;
+    int i = 0;
 
     if(str)
         while(str[len])
@@ -17,6 +17,7 @@ static char *ft_strjoin_char(char *str, char c)
         free(str);
         return(NULL);
     }
+
     while(len > i)
     {
         new[i] = str[i];
@@ -32,12 +33,9 @@ char *get_next_line(int fd)
 {
     static int bytes_read = 0;
     static int buf_pos = 0;
-    static char buf[BUFFER_SIZE];
+    static char buf[BUFFER_SIZE + 2];
     char *line = NULL;
 
-    if(fd < 0 || BUFFER_SIZE <= 0)
-        return(NULL);
-    
     while(1)
     {
         if(buf_pos >= bytes_read)
@@ -48,7 +46,7 @@ char *get_next_line(int fd)
                 return(line);
         }
         char c = buf[buf_pos++];
-        line = ft_strjoin_char(line, c);
+        line = ft_strjoin_c(line, c);
         if(c == '\n')
             break;
     }
@@ -57,13 +55,13 @@ char *get_next_line(int fd)
 
 int main(void)
 {
-    int fd = open("test_file.txt", O_RDONLY);
+    int fd;
+    fd = open("test_file.txt", O_RDONLY);
     char *line = NULL;
-    int i = 1;
 
     while((line = get_next_line(fd)))
     {
-        printf("%d: %s", i++, line);
+        printf("%s", line);
         free(line);
     }
 }
