@@ -12,12 +12,12 @@ void ft_putstr(char *str)
 	write(1, "\n", 1);
 }
 
-void swap(char *a, char *b)
+void ft_swap(char *a, char *b)
 {
 	char tmp = *a;
+
 	*a = *b;
 	*b = tmp;
-
 }
 
 void process_input(char *input, int index, int len)
@@ -28,13 +28,14 @@ void process_input(char *input, int index, int len)
 		return;
 	}
 
-	for(int i = index; i < len; i++)
+	for(int i = index; len > i; i++)
 	{
-		swap(&input[index], &input[i]);
+		ft_swap(&input[index], &input[i]);
 
 		process_input(input, index + 1, len);
-	
-		swap(&input[index], &input[i]);
+
+		ft_swap(&input[index], &input[i]);
+
 	}
 }
 
@@ -48,6 +49,7 @@ int main(int argc, char **argv)
 
 		while(argv[1][len])
 			len++;
+		
 		process_input(argv[1], 0, len);
 	}
 	return(0);

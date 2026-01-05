@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-static char *ft_strjoin_char(char *str, char c)
+char *ft_strjoin_char(char *str, char c)
 {
     int len = 0;
-    int i = 0;
     char *new = NULL;
+    int i = 0;
 
     if(str)
         while(str[len])
@@ -31,9 +31,9 @@ static char *ft_strjoin_char(char *str, char c)
 
 char *get_next_line(int fd)
 {
-    static char buf[BUFFER_SIZE];
-    static int buf_pos = 0;
     static int bytes_read = 0;
+    static int buf_pos = 0;
+    static char buf[BUFFER_SIZE];
     char *line = NULL;
 
     while(1)
@@ -47,18 +47,18 @@ char *get_next_line(int fd)
         }
         char c = buf[buf_pos++];
         line = ft_strjoin_char(line, c);
-        if(c = '\n')
+        if(c == '\n')
             break;
     }
-
+    return(line);
 }
 
 int main(void)
 {
-    int fd = open("test_file.txt", O_RDONLY);
     char *line = NULL;
+    int fd = open("test_file.txt", O_RDONLY);
 
-    while(line = get_next_line(fd))
+    while((line = get_next_line(fd)))
     {
         printf("%s", line);
         free(line);
