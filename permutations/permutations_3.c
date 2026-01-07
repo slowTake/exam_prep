@@ -1,18 +1,20 @@
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void ft_sort(char *str, int len)
 {
 	int i = 0;
-	
+	char tmp;
+	int j;
+
 	while(len > i)
 	{
-		int j = i + 1;
+		j = i + 1;
 		while(len > j)
 		{
 			if(str[i] > str[j])
 			{
-				char tmp = str[i];
+				tmp = str[i];
 				str[i] = str[j];
 				str[j] = tmp;
 			}
@@ -20,12 +22,11 @@ void ft_sort(char *str, int len)
 		}
 		i++;
 	}
+	return;
 }
 
 void solve(char *str, char *res, int *used, int pos, int len)
 {
-	int i = 0;
-
 	if(pos == len)
 	{
 		res[pos] = '\0';
@@ -33,8 +34,11 @@ void solve(char *str, char *res, int *used, int pos, int len)
 		return;
 	}
 
+	int i = 0;
+
 	while(len > i)
 	{
+		// printf("%d", i);
 		if(!used[i])
 		{
 			used[i] = 1;
@@ -43,17 +47,17 @@ void solve(char *str, char *res, int *used, int pos, int len)
 			used[i] = 0;
 		}
 		i++;
-	}	
+	}
 }
 
 int main(int argc, char **argv)
 {
+	int used[100] = {0};
+	char res[100];
+
 	if(argc == 2 && argv[1][0])
 	{
-		int used[100] = {0};
-		char res[100];
 		int len = 0;
-
 		while(argv[1][len])
 			len++;
 		ft_sort(argv[1], len);
