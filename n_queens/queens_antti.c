@@ -42,7 +42,7 @@ int safe_dia(int row, int col, int **board, int len)
 		x++;
 		y++;
 	}
-	
+
 	x = row;
 	y = col;
 	//north east
@@ -129,7 +129,7 @@ void solve(int row, int col, int **board, int n, int *res)
 			board[row][col] = 0;
 		}
 		col++;
-	} 
+	}
 }
 
 int main(int argc, char **argv)

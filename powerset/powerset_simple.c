@@ -1,92 +1,71 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
- * Helper to print the current subset.
- * If subsize is 0, it simply prints a newline (representing the empty set).
+ * Prints the current combination found in the result buffer.
+ * Ensures there is no trailing space at the end of the line.
  */
-void print_subset(int *subset, int subsize)
+void print_sol(int *res, int res_len)
 {
-	int i = 0;
-
-	while (i < subsize)
-	{
-		printf("%d", subset[i]);
-		if (i < subsize - 1)
-			printf(" ");
-		i++;
-	}
-	printf("\n");
+    for (int i = 0; i < res_len; i++)
+    {
+        printf("%d", res[i]);
+        if (i < res_len - 1)
+            printf(" ");
+    }
+    printf("\n");
 }
 
 /**
- * The recursive backtracking function.
- * @param target: The sum we are looking for.
- * @param set: The original input numbers.
- * @param set_size: Total count of input numbers.
- * @param idx: Our current position in the input set.
- * @param subset: Buffer to store the numbers we "pick".
- * @param subsize: How many numbers are currently in our subset buffer.
- * @param current_sum: The running total of the numbers in our subset.
+ * Recursive solver using the Binary Choice pattern:
+ * For every number, we either "Keep" it or "Skip" it.
  */
-void solve(int target, int *set, int set_size, int idx, int *subset, int subsize, int current_sum)
+void solve(int target, int *subset, int *res, int size, int idx, int res_len, int current_sum)
 {
-	// Base Case: We have made a decision for every number in the original set.
-	if (idx == set_size)
-	{
-		if (current_sum == target)
-		{
-			print_subset(subset, subsize);
-		}
-		return;
-	}
+    // 1. SUCCESS: The current sum exactly matches the target
+    if (current_sum == target)
+    {
+        print_sol(res, res_len);
+        return;
+    }
 
-	/* * CHOICE 1: SKIP the current element.
-	 * We move to the next index without adding set[idx] to our sum or buffer.
-	 * This branch is explored first to naturally handle smaller/empty subsets.
-	 */
-	solve(target, set, set_size, idx + 1, subset, subsize, current_sum);
+    // 2. FAILURE: We've gone over the target or run out of numbers to check
+    // Note: 'current_sum > target' only works if all input numbers are positive.
+    if (idx == size || current_sum > target)
+        return;
 
-	/* * CHOICE 2: PICK the current element.
-	 * Add the number to our buffer and update the running sum.
-	 */
-	subset[subsize] = set[idx];
-	solve(target, set, set_size, idx + 1, subset, subsize + 1, current_sum + set[idx]);
+    // --- CHOICE A: KEEP the current number ---
+    // Place the number in the next available slot in our result buffer
+    res[res_len] = subset[idx];
+    solve(target, subset, res, size, idx + 1, res_len + 1, current_sum + subset[idx]);
+
+    // --- CHOICE B: SKIP the current number ---
+    // We move to the next index but do NOT increment res_len or current_sum
+    solve(target, subset, res, size, idx + 1, res_len, current_sum);
 }
 
 int main(int argc, char **argv)
 {
-	// The subject implies n and the set s follow ./powerset.
-	// If argc < 2, the target 'n' isn't even provided.
-	if (argc < 2)
-		return (0);
+    // We need at least the target and one number (argc >= 3)
+    if (argc < 3)
+        return (0);
 
-	int target = atoi(argv[1]);
-	int set_size = argc - 2;
+    int target = atoi(argv[1]);
+    int size = argc - 2;
 
-	// Handle malloc as required by the subject.
-	int *set = malloc(sizeof(int) * set_size);
-	int *subset = malloc(sizeof(int) * set_size);
+    int *subset = malloc(sizeof(int) * size);
+    int *res = malloc(sizeof(int) * size);
 
-	if (!set || !subset)
-	{
-		free(set);
-		free(subset);
-		return (1); // Exit code 1 for malloc error as per subject.
-	}
+    if (!subset || !res)
+        return (1);
 
-	// Fill the set array with integers from argv.
-	int i = 0;
-	while (i < set_size)
-	{
-		set[i] = atoi(argv[i + 2]);
-		i++;
-	}
+    // Fill our input array with the numbers from argv
+    for (int i = 0; i < size; i++)
+    {
+        subset[i] = atoi(argv[i + 2]);
+    }
 
-	// Start recursion: index 0, empty subset (size 0), current_sum 0.
-	solve(target, set, set_size, 0, subset, 0, 0);
+    solve(target, subset, res, size, 0, 0, 0);
 
-	free(set);
-	free(subset);
-	return (0);
+    return (0);
 }
