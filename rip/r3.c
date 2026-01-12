@@ -1,22 +1,26 @@
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 int is_balanced(char *str)
 {
 	int i = 0;
-	int count = 0;
+	int left = 0;
+	int right = 0;
 
 	while(str[i])
 	{
 		if(str[i] == '(')
-			count++;
+			left++;
 		else if(str[i] == ')')
-			count--;
-		if(count < 0)
-			return(0);
+		{
+			if(left > 0)
+				left--;
+			else
+				right++;
+		}
 		i++;
 	}
-	return(count == 0);
+	return(left == 0 && right == 0);
 }
 
 void solve(char *str, int index, int left, int right)
@@ -29,7 +33,6 @@ void solve(char *str, int index, int left, int right)
 	}
 
 	char backup = str[index];
-
 	if(backup == '(' && left > 0)
 	{
 		str[index] = ' ';
@@ -47,13 +50,13 @@ void solve(char *str, int index, int left, int right)
 
 int main(int argc, char **argv)
 {
-	int left = 0;
-	int right = 0;
-	int i = 0;
-	char *str = argv[1];
-
 	if(argc == 2 && argv[1][0])
 	{
+		int left = 0;
+		int right = 0;
+		int i = 0;
+		char *str = argv[1];
+
 		while(str[i])
 		{
 			if(str[i] == '(')
@@ -67,7 +70,6 @@ int main(int argc, char **argv)
 			}
 			i++;
 		}
-		solve(str, 0, left, right);
+		solve(argv[1], 0, left, right);
 	}
-	return(0);
 }
