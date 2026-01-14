@@ -11,7 +11,7 @@ int is_balanced(char *str)
 	{
 		if(str[i] == '(')
 			left++;
-		else if(str[i] == ')')
+		else if (str[i] == ')')
 		{
 			if(left > 0)
 				left--;
@@ -23,30 +23,31 @@ int is_balanced(char *str)
 	return(left == 0 && right == 0);
 }
 
-void solve(char *str, int index, int left, int right)
+void solve(char *str, int pos, int left, int right)
 {
-	if(str[index] == '\0')
-	{	
+	if(str[pos] == '\0')
+	{
 		if(left == 0 && right == 0 && is_balanced(str))
 			puts(str);
-		return;
+		return ;
 	}
 
-	char backup = str[index];
+	int i = 0;
+	char backup = str[pos];
 
 	if(backup == '(' && left > 0)
 	{
-		str[index] = ' ';
-		solve(str, index + 1, left - 1, right);
-		str[index] = backup;
+		str[pos] = ' ';
+		solve(str, pos + 1, left - 1, right);
+		str[pos] = backup;
 	}
-	if(backup == ')' && right > 0)
+	else if(backup == ')' && right > 0)
 	{
-		str[index] = ' ';
-		solve(str, index + 1, left, right + 1);
-		str[index] = backup;
+		str[pos] = ' ';
+		solve(str, pos + 1, left - 1, right);
+		str[pos] = backup;
 	}
-		solve(str, index + 1, left, right);
+	solve(str, pos + 1, left, right);
 }
 
 int main(int argc, char **argv)
@@ -55,8 +56,8 @@ int main(int argc, char **argv)
 	{
 		int left = 0;
 		int right = 0;
-		char *str = argv[1];
 		int i = 0;
+		char *str = argv[1];
 
 		while(str[i])
 		{
@@ -64,13 +65,13 @@ int main(int argc, char **argv)
 				left++;
 			else if (str[i] == ')')
 			{
-				if(str[i] == ')')
+				if(left > 0)
 					left--;
 				else
 					right++;
 			}
 			i++;
 		}
-		solve(str, 0, left, right);
+		solve(argv[1], 0, left, right);
 	}
 }

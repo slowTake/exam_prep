@@ -2,19 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_sol(int **res)
+int find_empty(int **result)
 {
 	int i = 0;
 
-	while(res[i])
-	{
-		if(res[i + 1])
-			printf("%d ", *res[i]);
-		else
-			printf("%d", *res[i]);
+	while(result[i])
 		i++;
-	}
-	printf("\n");
+	return i;
 }
 
 int sol_found(int target, int **result)
@@ -27,35 +21,43 @@ int sol_found(int target, int **result)
 		sum += *result[i];
 		i++;
 	}
+
 	if(target == sum)
 		return 1;
 	return 0;
 }
 
-int find_empty(int **res)
+void print_sol(int **result)
 {
 	int i = 0;
-	
-	while(res[i])
+
+	while(result[i])
+	{
+		if(result[i + 1])
+			printf("%d ", *result[i]);
+		else
+			printf("%d", *result[i]);
 		i++;
-	return i;
+	}
+	printf("\n");
 }
 
-void solve(int target, int *subset, int **result, int set_size, int index)
+void solve(int target, int *subset, int **result, int len, int index)
 {
 	if(sol_found(target, result))
 		print_sol(result);
 	
 	int empty = find_empty(result);
 
-	while(set_size > index)
+	while(len > index)
 	{
 		result[empty] = &subset[index];
-		solve(target, subset, result, set_size, index + 1);
+		solve(target, subset, result, len, index + 1);
 		result[empty] = 0;
 		index++;
 	}
 }
+
 int main(int argc, char **argv)
 {
 	if(argc < 2)
@@ -69,7 +71,7 @@ int main(int argc, char **argv)
 
 	int i = 0;
 
-	while(set_size > i)
+	while(argv[i + 2])
 	{
 		subset[i] = atoi(argv[i + 2]);
 		i++;

@@ -34,7 +34,7 @@ void    print_sol(int *rows, int n)
     while (i < n)
     {
         printf("%d", rows[i]);
-        if (i < n - 1)
+        if (i != n)
             printf(" ");
         i++;
     }
@@ -62,20 +62,19 @@ void    solve(int *rows, int n, int pos)
     }
 }
 
-int    main(int ac, char **av)
+int    main(int argc, char **argv)
 {
     int n;
     int *rows;
 
-    if (ac != 2)
+    if (argc != 2)
         return (0);
-    n = atoi(av[1]);
+
+    n = atoi(argv[1]);
+
     if (n <= 0)
         return (0);
-    rows = (int *)malloc(sizeof(int) * n);
-    if (!rows)
-        return (1);
+    rows = malloc(sizeof(int) * n);
+
     solve(rows, n, 0);
-    free(rows);
-    return (0);
 }

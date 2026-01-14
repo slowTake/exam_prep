@@ -4,9 +4,9 @@
 void ft_sort(char *str, int len)
 {
 	int i = 0;
-	char tmp;
 	int j;
-	
+	char tmp;
+
 	while(len > i)
 	{
 		j = i + 1;
@@ -34,6 +34,7 @@ void solve(char *str, char *res, int *used, int pos, int len)
 	}
 
 	int i = 0;
+
 	while(len > i)
 	{
 		if(!used[i])
@@ -53,12 +54,12 @@ int main(int argc, char **argv)
 	{
 		int used[100] = {0};
 		char res[100];
+		int i = 0;
 		char *str = argv[1];
-		int len = 0;
 
-		while(str[len])
-			len++;
-		ft_sort(argv[1], len);
-		solve(str, res, used, 0, len);
+		while(str[i])
+			i++;
+		ft_sort(argv[1], i);
+		solve(argv[1], res, used, 0, i);
 	}
 }
